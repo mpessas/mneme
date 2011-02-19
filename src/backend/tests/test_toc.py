@@ -11,24 +11,35 @@ class TestTOC(unittest.TestCase):
     def setUp(self):
         self.data_dir = tempfile.mkdtemp()
         self.toc = TOC(self.data_dir)
+        self.toc._connect()
+        self.data = TOCEntry('http://www.example.com', 0)
 
     def tearDown(self):
         shutil.rmtree(self.data_dir)
+        self.toc._disconnect()
     
     def test_add_one(self):
-        with self.toc.connect():
-            data = TOCEntry('http://www.example.com', 0)
-            self.toc.add(data)
-            self.assertEquals(self.toc._count(), 1)
+        self.toc.add(self.data)
+        self.assertEquals(self.toc._count(), 1)
 
     def test_add_many(self):
-        with self.toc.connect():
-            data = [
-                TOCEntry('http://www.example.com', 0),
-                TOCEntry('http://www.example1.com', 1)
-            ]
-            self.toc.add(data)
-            self.assertEquals(self.toc._count(), 2)
+        data = [
+            self.data,
+            TOCEntry('http://www.example1.com', 1)
+        ]
+        self.toc.add(data)
+        self.assertEquals(self.toc._count(), 2)
+        
+    def test_get_not_exists(self):
+        self.assertIsNone(self.toc.get(1))
+
+    def test_get_success(self):
+        self.toc.add(self.data)
+        res = self.toc.get(1)
+        self.assertEquals(res.url, self.data.url)
+
+    def test_get_invalid_input(self):
+        self.assertIsNone(self.toc.get('1'))
 
 
 if __name__ == '__main__':

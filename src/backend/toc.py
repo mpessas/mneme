@@ -59,12 +59,23 @@ class TOC(object):
         c.close()
         return n
 
+    def get(self, toc_id):
+        query = "SELECT * FROM urls WHERE %s = ?" % self._cols[0]
+        c = self._conn.cursor()
+        c.execute(query, (toc_id, ))
+        res = c.fetchone()
+        if res is None:
+            return None
+        entry = TOCEntry(res[1], res[2], res[0])
+        c.close()
+        return entry
+
 
 class TOCEntry(object):
     """An entry in the TOC."""
 
-    def __init__(self, url, xapian_id):
-        self._id = None
+    def __init__(self, url, xapian_id, toc_id=None):
+        self._id = toc_id
         self._url = url
         self._xapian_id = xapian_id
 
