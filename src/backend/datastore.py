@@ -14,7 +14,6 @@ class Data(object):
 
     def __init__(self):
         self._data_dir = os.path.expanduser(u'~/.saveurl/')
-        print self._data_dir
         self._sqlitedb_path = os.path.join(self._data_dir, u'urls.db')
         if not os.path.exists(self._data_dir):
             os.mkdir(self._data_dir)
