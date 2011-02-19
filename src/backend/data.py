@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
+import os
 import os.path
+import sqlite3
 
 class Data(object):
     """
@@ -11,8 +13,12 @@ class Data(object):
     """
 
     def __init__(self):
-        self._sqlitedb = u'~/.saveurls/urls.db'
-        if not os.path.exists(self._sqlitedb):
+        self._data_dir = os.path.expanduser(u'~/.saveurl/')
+        print self._data_dir
+        self._sqlitedb_path = os.path.join(self._data_dir, u'urls.db')
+        if not os.path.exists(self._data_dir):
+            os.mkdir(self._data_dir)
+        if not os.path.exists(self._sqlitedb_path):
             self._init_backend()
 
     def _init_backend(self):
@@ -26,7 +32,16 @@ class Data(object):
 
     def _init_sql(self):
         """Initialize the sql table."""
-        pass
+        self._conn = sqlite3.connect(self._sqlitedb_path)
+        c = self._conn.cursor()
+        query = "CREATE TABLE urls (id INTEGER PRIMARY KEY AUTOINCREMENT," + \
+                "url TEXT NOT NULL UNIQUE," + \
+                "xapian_id INTEGER NOT NULL UNIQUE)"
+        
+        c.execute(query)
+        self._conn.commit()
+        c.close()
+        self._conn.close()
 
     def _init_xapian(self):
         """Initialize the xapian backend."""
