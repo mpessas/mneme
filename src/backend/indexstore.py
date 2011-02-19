@@ -27,8 +27,7 @@ class IndexStore(object):
                 type='date'
             )
             self._conn.add_field_action(
-                'category', xappy.FieldActions.FACET,
-                type='string'
+                'tag', xappy.FieldActions.FACET
             )
 
     def _connect(self):
