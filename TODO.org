@@ -5,16 +5,18 @@
      | id | url | xapian_id |
      |----+-----+-----------|
    - url unique
+   - [ ] PRAGMA sqlite3
+   - [X] 11.13.7.3
 ** Xapian
 *** Fields
    - url: extra weight
    - body: 
    - date: sortable
    - tag: facet
-
+     
 * General
 ** Settings
 ** Logging
-
+   
 * Documentation
   - Sphinx
