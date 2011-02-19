@@ -1,0 +1,19 @@
+#!/usr/bin/env python2
+# -*- coding: utf-8 -*-
+
+import unittest
+import urllib2
+from document import Document
+
+class TestDocument(unittest.TestCase):
+
+    def test_wrong_url(self):
+        self.assertRaises(urllib2.URLError, Document, "http://example")
+
+    def test_correct_url(self):
+        doc = Document("http://www.example.com")
+        self.assertIsNotNone(doc.get_text())
+        
+
+if __name__ == '__main__':
+    unittest.main()
