@@ -41,6 +41,11 @@ class TestTOC(unittest.TestCase):
     def test_get_invalid_input(self):
         self.assertIsNone(self.toc.get('1'))
 
+    def test_exists_true(self):
+        self.toc.add(self.data)
+        self.assertTrue(self.toc.exists(self.data.url))
+        self.assertFalse(self.toc.exists("nourl"))
+
 
 if __name__ == '__main__':
     unittest.main()

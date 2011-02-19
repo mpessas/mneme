@@ -41,7 +41,7 @@ class TOC(object):
             query = "INSERT INTO urls (%s, %s) VALUES (?, ?)" % (self._cols[1],
                                                                  self._cols[2])
             self._conn.execute(query, (data.url, data.xapian_id))
-        
+
     def add(self, data):
         """Add an entry to the TOC.
 
@@ -69,6 +69,15 @@ class TOC(object):
         entry = TOCEntry(res[1], res[2], res[0])
         c.close()
         return entry
+
+    def exists(self, url):
+        query = "SELECT id FROM urls WHERE %s=?" % self._cols[1]
+        c = self._conn.cursor()
+        c.execute(query, (url, ))
+        if c.fetchone() is None:
+            return False
+        else:
+            return True
 
 
 class TOCEntry(object):
