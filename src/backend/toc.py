@@ -75,7 +75,7 @@ class TOCEntry(object):
     """An entry in the TOC."""
 
     def __init__(self, url, xapian_id, toc_id=None):
-        self._id = toc_id
+        self.toc_id = toc_id
         self._url = url
         self._xapian_id = xapian_id
 
