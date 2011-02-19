@@ -20,3 +20,5 @@
    
 * Documentation
   - Sphinx
+* Documents
+  - Handle auth
