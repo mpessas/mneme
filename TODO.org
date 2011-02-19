@@ -1,0 +1,20 @@
+* Backend
+** Sqlite
+   - Schema 
+     |----+-----+-----------|
+     | id | url | xapian_id |
+     |----+-----+-----------|
+   - url unique
+** Xapian
+*** Fields
+   - url: extra weight
+   - body: 
+   - date: sortable
+   - tag: facet
+
+* General
+** Settings
+** Logging
+
+* Documentation
+  - Sphinx
