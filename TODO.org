@@ -5,6 +5,8 @@
      | id | url | xapian_id |
      |----+-----+-----------|
    - url unique
+   - [ ] PRAGMA sqlite3
+   - [ ] 11.13.7.3
 ** Xapian
 *** Fields
    - url: extra weight
