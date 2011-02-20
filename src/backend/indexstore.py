@@ -30,6 +30,12 @@ class IndexStore(object):
             self._conn.add_field_action(
                 'date', xappy.FieldActions.STORE_CONTENT
             )
+            self._conn.add_field_action(
+                'category', xappy.FieldActions.INDEX_EXACT
+            )
+            self._conn.add_field_action(
+                'category', xappy.FieldActions.STORE_CONTENT
+            )
 
     def _connect(self):
         self._conn = xappy.IndexerConnection(self._xapiandb_path)
