@@ -22,7 +22,7 @@ class TestIndex(unittest.TestCase):
         self.assertEqual(self.index.add("title2", "Body of text",
                                         date='2010-01-10'), '1')
         self.assertEqual(self.index.add("title3", "Lots of text",
-                                        category='general'), '2')
+                                        categories=['general', ]), '2')
 
     def test_search(self):
         self.index.add("title", "Body of text")
@@ -44,7 +44,7 @@ class TestIndex(unittest.TestCase):
     def test_search_category(self):
         self.index.add("title", "Body of text")
         self.index.add("title2", "Example text general")
-        self.index.add("title3", "Lots of text", category='general')
+        self.index.add("title3", "Lots of text", categories=['general', ])
         self.index._conn.flush()
         res = self.index.search('lots')
         self.assertEquals(len(res), 1)
@@ -52,6 +52,15 @@ class TestIndex(unittest.TestCase):
         self.assertEquals(len(res), 1)
         res = self.index.search('nothing', category='general')
         self.assertEquals(len(res), 0)
+
+    def test_add_multiple_categories(self):
+        self.index.add("title", "Lots of text and text",
+                       categories=['general', 'example'])
+        self.index._conn.flush()
+        res = self.index.search('lots', category='general')
+        self.assertEquals(len(res), 1)
+        res = self.index.search('lots', category='example')
+        self.assertEquals(len(res), 1)
 
 
 if __name__ == '__main__':

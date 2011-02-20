@@ -54,12 +54,12 @@ class IndexStore(object):
         yield
         self._disconnect()
 
-    def add(self, title, text, category=None, date=datetime.date.today()):
+    def add(self, title, text, categories=[], date=datetime.date.today()):
         doc = xappy.UnprocessedDocument()
         doc.fields.append(xappy.Field('title', title))
         doc.fields.append(xappy.Field('text', text))
-        if category:
-            doc.fields.append(xappy.Field('category', category))
+        for cat in categories:
+            doc.fields.append(xappy.Field('category', cat))
         doc.fields.append(xappy.Field('date', str(date)))
         return self._conn.add(doc)
 
