@@ -15,8 +15,8 @@ class TestTOC(unittest.TestCase):
         self.data = TOCEntry('http://www.example.com', 0)
 
     def tearDown(self):
-        shutil.rmtree(self.data_dir)
         self.toc._disconnect()
+        shutil.rmtree(self.data_dir)
     
     def test_add_one(self):
         self.toc.add(self.data)
