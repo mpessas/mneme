@@ -27,6 +27,9 @@ class IndexStore(object):
                 'date', xappy.FieldActions.SORTABLE,
                 type='date'
             )
+            self._conn.add_field_action(
+                'date', xappy.FieldActions.STORE_CONTENT
+            )
 
     def _connect(self):
         self._conn = xappy.IndexerConnection(self._xapiandb_path)
@@ -45,7 +48,7 @@ class IndexStore(object):
         doc = xappy.UnprocessedDocument()
         doc.fields.append(xappy.Field('title', title))
         doc.fields.append(xappy.Field('text', text))
-        doc.fields.append(xappy.Field('date', date))
+        doc.fields.append(xappy.Field('date', str(date)))
         return self._conn.add(doc)
 
     def search(self, text):

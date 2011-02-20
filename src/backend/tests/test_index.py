@@ -31,7 +31,7 @@ class TestIndex(unittest.TestCase):
         
     def test_search_two(self):
         self.index.add("title", "Body of text")
-        self.index.add("title2", "Lot of text")
+        self.index.add("title2", "Lot of text", date='2010-02-10')
         self.index._conn.flush()
         res = self.index.search("text")
         self.assertEquals(len(res), 2)
