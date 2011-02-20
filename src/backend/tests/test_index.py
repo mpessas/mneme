@@ -62,6 +62,18 @@ class TestIndex(unittest.TestCase):
         res = self.index.search('lots', category='example')
         self.assertEquals(len(res), 1)
 
+    def test_get_categories(self):
+        self.index.add("title", "Lots of text and text",
+                       categories=['general', 'example'])
+        self.index.add("title2", "Example text",
+                       categories=['example'])
+        self.index.add("title3", "Lorem ipsum", categories=['latin', ])
+        self.index._conn.flush()
+        self.assertEqual(
+            [c for c in self.index.get_categories()],
+            ['example', 'general', 'latin']
+        )
+
 
 if __name__ == '__main__':
     unittest.main()

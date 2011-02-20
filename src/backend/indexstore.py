@@ -36,10 +36,6 @@ class IndexStore(object):
             self._conn.add_field_action(
                 'category', xappy.FieldActions.STORE_CONTENT
             )
-            # self._conn.add_field_action(
-            #     'category', xappy.FieldActions.FACET,
-            #     type='string'
-            # )
 
     def _connect(self):
         self._conn = xappy.IndexerConnection(self._xapiandb_path)
@@ -70,3 +66,7 @@ class IndexStore(object):
             facet_q = conn.query_facet('category', category)
             q = conn.query_filter(q, facet_q)
         return conn.search(q, 0, 10)
+
+    def get_categories(self):
+        conn = xappy.SearchConnection(self._xapiandb_path)
+        return conn.iter_terms_for_field('category')
