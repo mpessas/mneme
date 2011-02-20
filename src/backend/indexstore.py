@@ -36,6 +36,10 @@ class IndexStore(object):
             self._conn.add_field_action(
                 'category', xappy.FieldActions.STORE_CONTENT
             )
+            # self._conn.add_field_action(
+            #     'category', xappy.FieldActions.FACET,
+            #     type='string'
+            # )
 
     def _connect(self):
         self._conn = xappy.IndexerConnection(self._xapiandb_path)
@@ -50,14 +54,20 @@ class IndexStore(object):
         yield
         self._disconnect()
 
-    def add(self, title, text, date=datetime.date.today()):
+    def add(self, title, text, category=None, date=datetime.date.today()):
         doc = xappy.UnprocessedDocument()
         doc.fields.append(xappy.Field('title', title))
         doc.fields.append(xappy.Field('text', text))
+        if category:
+            doc.fields.append(xappy.Field('category', category))
         doc.fields.append(xappy.Field('date', str(date)))
         return self._conn.add(doc)
 
-    def search(self, text):
+    def search(self, text, category=None):
         conn = xappy.SearchConnection(self._xapiandb_path)
         q = conn.query_field('text', text)
-        return conn.search(q, 0, 10)
+        if category is None:
+            return conn.search(q, 0, 10)
+        else:
+            facet_q = conn.query_facet('category', category)
+            return conn.search(conn.query_filter(q, facet_q), 0, 10)
