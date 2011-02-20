@@ -66,8 +66,7 @@ class IndexStore(object):
     def search(self, text, category=None):
         conn = xappy.SearchConnection(self._xapiandb_path)
         q = conn.query_field('text', text)
-        if category is None:
-            return conn.search(q, 0, 10)
-        else:
+        if category:
             facet_q = conn.query_facet('category', category)
-            return conn.search(conn.query_filter(q, facet_q), 0, 10)
+            q = conn.query_filter(q, facet_q)
+        return conn.search(q, 0, 10)
