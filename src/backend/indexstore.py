@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import os.path
+import datetime
 from contextlib import contextmanager
 import xappy
 
@@ -15,7 +16,7 @@ class IndexStore(object):
     def _setup_index(self):
         with self.connect():
             self._conn.add_field_action(
-                'url', xappy.FieldActions.INDEX_FREETEXT,
+                'title', xappy.FieldActions.INDEX_FREETEXT,
                 weight=5, language='en'
             )
             self._conn.add_field_action(
@@ -26,14 +27,12 @@ class IndexStore(object):
                 'date', xappy.FieldActions.SORTABLE,
                 type='date'
             )
-            self._conn.add_field_action(
-                'tag', xappy.FieldActions.FACET
-            )
 
     def _connect(self):
         self._conn = xappy.IndexerConnection(self._xapiandb_path)
 
     def _disconnect(self):
+        self._conn.flush()
         self._conn.close()
 
     @contextmanager
@@ -41,4 +40,15 @@ class IndexStore(object):
         self._connect()
         yield
         self._disconnect()
-        
+
+    def add(self, title, text, date=datetime.date.today()):
+        doc = xappy.UnprocessedDocument()
+        doc.fields.append(xappy.Field('title', title))
+        doc.fields.append(xappy.Field('text', text))
+        doc.fields.append(xappy.Field('date', date))
+        return self._conn.add(doc)
+
+    def search(self, text):
+        conn = xappy.SearchConnection(self._xapiandb_path)
+        q = conn.query_field('text', text)
+        return conn.search(q, 0, 10)

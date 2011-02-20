@@ -18,7 +18,25 @@ class TestIndex(unittest.TestCase):
         shutil.rmtree(self.data_dir)
 
     def test_add(self):
-        print self.index.add("title", "Body of text")
+        self.assertEqual(self.index.add("title", "Body of text"), '0')
+        self.assertEqual(self.index.add("title2", "Body of text", date='2010-01-10'), '1')
+
+    def test_search(self):
+        self.index.add("title", "Body of text")
+        self.index._conn.flush()
+        res = self.index.search("Body")
+        self.assertEquals(len(res), 1)
+        self.assertEquals(res[0].rank, 0)
+        self.assertEquals(res[0].id, '0')
+        
+    def test_search_two(self):
+        self.index.add("title", "Body of text")
+        self.index.add("title2", "Lot of text")
+        self.index._conn.flush()
+        res = self.index.search("text")
+        self.assertEquals(len(res), 2)
+        self.assertEquals(res[0].id, '0')
+        self.assertEquals(res[1].id, '1')
 
 
 if __name__ == '__main__':
