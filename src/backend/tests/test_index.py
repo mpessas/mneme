@@ -18,14 +18,14 @@ class TestIndex(unittest.TestCase):
         shutil.rmtree(self.data_dir)
 
     def test_add(self):
-        self.assertEqual(self.index.add("title", "Body of text"), '0')
-        self.assertEqual(self.index.add("title2", "Body of text",
+        self.assertEqual(self.index.add("url", "Body of text"), '0')
+        self.assertEqual(self.index.add("url2", "Body of text",
                                         date='2010-01-10'), '1')
-        self.assertEqual(self.index.add("title3", "Lots of text",
+        self.assertEqual(self.index.add("url3", "Lots of text",
                                         categories=['general', ]), '2')
 
     def test_search(self):
-        self.index.add("title", "Body of text")
+        self.index.add("url", "Body of text")
         self.index._conn.flush()
         res = self.index.search("Body")
         self.assertEquals(len(res), 1)
@@ -33,8 +33,8 @@ class TestIndex(unittest.TestCase):
         self.assertEquals(res[0].id, '0')
         
     def test_search_two(self):
-        self.index.add("title", "Body of text")
-        self.index.add("title2", "Lot of text", date='2010-02-10')
+        self.index.add("url", "Body of text")
+        self.index.add("url2", "Lot of text", date='2010-02-10')
         self.index._conn.flush()
         res = self.index.search("text")
         self.assertEquals(len(res), 2)
@@ -42,9 +42,9 @@ class TestIndex(unittest.TestCase):
         self.assertEquals(res[1].id, '1')
 
     def test_search_category(self):
-        self.index.add("title", "Body of text")
-        self.index.add("title2", "Example text general")
-        self.index.add("title3", "Lots of text", categories=['general', ])
+        self.index.add("url", "Body of text")
+        self.index.add("url2", "Example text general")
+        self.index.add("url3", "Lots of text", categories=['general', ])
         self.index._conn.flush()
         res = self.index.search('lots')
         self.assertEquals(len(res), 1)
@@ -54,7 +54,7 @@ class TestIndex(unittest.TestCase):
         self.assertEquals(len(res), 0)
 
     def test_add_multiple_categories(self):
-        self.index.add("title", "Lots of text and text",
+        self.index.add("url", "Lots of text and text",
                        categories=['general', 'example'])
         self.index._conn.flush()
         res = self.index.search('lots', category='general')
@@ -63,11 +63,11 @@ class TestIndex(unittest.TestCase):
         self.assertEquals(len(res), 1)
 
     def test_get_categories(self):
-        self.index.add("title", "Lots of text and text",
+        self.index.add("url", "Lots of text and text",
                        categories=['general', 'example'])
-        self.index.add("title2", "Example text",
+        self.index.add("url2", "Example text",
                        categories=['example'])
-        self.index.add("title3", "Lorem ipsum", categories=['latin', ])
+        self.index.add("url3", "Lorem ipsum", categories=['latin', ])
         self.index._conn.flush()
         self.assertEqual(
             [c for c in self.index.get_categories()],

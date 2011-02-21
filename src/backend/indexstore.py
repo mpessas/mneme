@@ -16,8 +16,10 @@ class IndexStore(object):
     def _setup_index(self):
         with self.connect():
             self._conn.add_field_action(
-                'title', xappy.FieldActions.INDEX_FREETEXT,
-                weight=5, language='en'
+                'url', xappy.FieldActions.INDEX_EXACT
+            )
+            self._conn.add_field_action(
+                'url', xappy.FieldActions.STORE_CONTENT
             )
             self._conn.add_field_action(
                 'text', xappy.FieldActions.INDEX_FREETEXT,
@@ -50,9 +52,9 @@ class IndexStore(object):
         yield
         self._disconnect()
 
-    def add(self, title, text, categories=[], date=datetime.date.today()):
+    def add(self, url, text, categories=[], date=datetime.date.today()):
         doc = xappy.UnprocessedDocument()
-        doc.fields.append(xappy.Field('title', title))
+        doc.fields.append(xappy.Field('url', url))
         doc.fields.append(xappy.Field('text', text))
         for cat in categories:
             doc.fields.append(xappy.Field('category', cat))
