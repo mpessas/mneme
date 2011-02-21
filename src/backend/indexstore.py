@@ -72,3 +72,7 @@ class IndexStore(object):
     def get_categories(self):
         conn = xappy.SearchConnection(self._xapiandb_path)
         return conn.iter_terms_for_field('category')
+
+    def get_url(self, search_result):
+        return search_result.data['url'][0]
+        

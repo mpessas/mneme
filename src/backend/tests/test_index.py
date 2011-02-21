@@ -74,6 +74,15 @@ class TestIndex(unittest.TestCase):
             ['example', 'general', 'latin']
         )
 
+    def test_get_url_by_id(self):
+        self.index.add("url", "Lots of text and text",
+                       categories=['general', 'example'])
+        self.index.add("url2", "Example text",
+                       categories=['example'])
+        self.index._conn.flush()
+        res = self.index.search('example')
+        self.assertEqual(self.index.get_url(res[0]), "url2")
+
 
 if __name__ == '__main__':
     unittest.main()
