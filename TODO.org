@@ -13,4 +13,10 @@
 * Documentation
   - Sphinx
 * Documents
-  - Handle auth
+  - [ ] Handle auth
+* UI
+** CMD
+   - [ ] add document (+categories)
+   - [ ] search for term
+   - [ ] list categories
+   - [ ] show last
