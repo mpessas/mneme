@@ -3,11 +3,15 @@
 
 import sys
 import argparse
+import document
+import backend
 
 
 def add_url(args):
     """Adds the given URL to the index."""
-    print args.url
+    doc = document.Document(args.url)
+    index = backend.DataStore()
+    index.add(args.url, doc.get_text())
 
 
 def search_terms(args):
@@ -26,6 +30,10 @@ def parse_args():
 
     add_parser = subparsers.add_parser('add', help=u'Add a URL to the index.')
     add_parser.add_argument('url', help=u'The URL to add to the index.')
+    add_parser.add_argument(
+        '-c', '--category', nargs='+',
+        help=u'A list of categories this URL belongs to.'
+    )
     add_parser.set_defaults(func=add_url)
 
     search_parser = subparsers.add_parser(
@@ -33,6 +41,9 @@ def parse_args():
     )
     search_parser.add_argument(
         'terms', nargs='+', help=u'A list of terms to search for.'
+    )
+    search_parser.add_argument(
+        '-c', '--category', help=u'Category the URl must match.'
     )
     search_parser.set_defaults(func=search_terms)
 
