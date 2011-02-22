@@ -10,13 +10,10 @@ class DataStore(object):
     Uses xapian for indexing the data.
     """
 
-    def __init__(self, data_dir=None):
-        self._data_dir = data_dir
-        if self._data_dir is None:
-            self._data_dir = os.path.expanduser(u'~/.saveurl/')
-        if not os.path.exists(self._data_dir):
-            os.mkdir(self._data_dir)
-        self.index = IndexStore(self._data_dir)
+    def __init__(self, data_dir):
+        if not os.path.exists(data_dir):
+            os.mkdir(data_dir)
+        self.index = IndexStore(data_dir)
 
     def add(self, url, text, categories=[]):
         with self.index.connect():

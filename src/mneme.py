@@ -5,18 +5,19 @@ import sys
 import argparse
 import document
 import store
+import settings
 
 
 def add_url(args):
     """Adds the given URL to the index."""
     doc = document.Document(args.url)
-    index = store.DataStore()
+    index = store.DataStore(settings.DATA_DIR)
     index.add(args.url, doc.get_text(), args.category)
 
 
 def search_terms(args):
     """Prints the URLs that matched the terms supplied in the command line."""
-    index = store.DataStore()
+    index = store.DataStore(settings.DATA_DIR)
     for res in index.search(' '.join(args.terms), args.category):
         print res
 
