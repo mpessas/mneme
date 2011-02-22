@@ -4,19 +4,19 @@
 import sys
 import argparse
 import document
-import index
+import store
 
 
 def add_url(args):
     """Adds the given URL to the index."""
     doc = document.Document(args.url)
-    index = backend.DataStore()
+    index = store.DataStore()
     index.add(args.url, doc.get_text(), args.category)
 
 
 def search_terms(args):
     """Prints the URLs that matched the terms supplied in the command line."""
-    index = backend.DataStore()
+    index = store.DataStore()
     for res in index.search(' '.join(args.terms), args.category):
         print res
 
@@ -33,8 +33,8 @@ def parse_args():
     add_parser = subparsers.add_parser('add', help=u'Add a URL to the index.')
     add_parser.add_argument('url', help=u'The URL to add to the index.')
     add_parser.add_argument(
-        '-c', '--category', nargs='+',
-        help=u'A list of categories this URL belongs to.'
+        '-c', '--category', action='append',
+        help=u'A category this URL belongs to.'
     )
     add_parser.set_defaults(func=add_url)
 
