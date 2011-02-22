@@ -5,8 +5,7 @@ import os.path
 from indexstore import IndexStore
 
 class DataStore(object):
-    """
-    Class to save/retrieve data from datastore.
+    """Class to save/retrieve data from datastore.
     
     Uses xapian for indexing the data.
     """
