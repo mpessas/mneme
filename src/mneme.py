@@ -4,7 +4,7 @@
 import sys
 import argparse
 import document
-import backend
+import index
 
 
 def add_url(args):
