@@ -11,12 +11,14 @@ def add_url(args):
     """Adds the given URL to the index."""
     doc = document.Document(args.url)
     index = backend.DataStore()
-    index.add(args.url, doc.get_text())
+    index.add(args.url, doc.get_text(), args.category)
 
 
 def search_terms(args):
     """Prints the URLs that matched the terms supplied in the command line."""
-    print ' '.join(args.terms)
+    index = backend.DataStore()
+    for res in index.search(' '.join(args.terms), args.category):
+        print res
 
 
 def parse_args():
