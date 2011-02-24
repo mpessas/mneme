@@ -3,6 +3,7 @@
 
 import sys
 import argparse
+import json
 import document
 import store
 import settings
@@ -34,6 +35,16 @@ def list_urls(args):
     index = store.DataStore(settings.DATA_DIR)
     for url in index.get_urls():
         print url
+
+
+def export_data(args):
+    index = store.DataStore(settings.DATA_DIR)
+    json.dump(
+        [entry for entry in index.get_entries()],
+        args.outfile,
+        indent=4
+    )
+    args.outfile.close()
 
 
 def parse_args():
@@ -73,6 +84,12 @@ def parse_args():
         'list_urls', help=u'List the indexed urls.'
     )
     list_urls_parser.set_defaults(func=list_urls)
+
+    export_parser = subparsers.add_parser(
+        'export', help=u'Export data in index.'
+    )
+    export_parser.add_argument('outfile', type=argparse.FileType('w'))
+    export_parser.set_defaults(func=export_data)
 
     return parser.parse_args()
 

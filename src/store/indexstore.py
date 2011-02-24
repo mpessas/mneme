@@ -87,4 +87,7 @@ class IndexStore(object):
         res = conn.search(q, 0, 1)
         assert len(res) == 1 or len(res) == 0
         return len(res) == 1
-        
+
+    def get_documents(self):
+        conn = xappy.SearchConnection(self._xapiandb_path)
+        return conn.iter_documents()

@@ -31,5 +31,9 @@ class DataStore(object):
 
     def get_urls(self):
         return self.index.get_urls()
+
+    def get_entries(self):
+        docs = self.index.get_documents()
+        return ((d.data['url'][0], d.data['category']) for d in docs)
         
     
