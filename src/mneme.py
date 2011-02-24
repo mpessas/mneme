@@ -22,6 +22,20 @@ def search_terms(args):
         print res
 
 
+def list_categories(args):
+    """List the categories defined in the index."""
+    index = store.DataStore(settings.DATA_DIR)
+    for cat in index.get_categories():
+        print cat
+
+
+def list_urls(args):
+    """List the categories defined in the index."""
+    index = store.DataStore(settings.DATA_DIR)
+    for url in index.get_urls():
+        print url
+
+
 def parse_args():
     """Handle arguments."""
     parser = argparse.ArgumentParser(
@@ -49,6 +63,16 @@ def parse_args():
         '-c', '--category', help=u'Category the URl must match.'
     )
     search_parser.set_defaults(func=search_terms)
+
+    list_categories_parser = subparsers.add_parser(
+        'list_categories', help=u'List the defined categories.'
+    )
+    list_categories_parser.set_defaults(func=list_categories)
+
+    list_urls_parser = subparsers.add_parser(
+        'list_urls', help=u'List the indexed urls.'
+    )
+    list_urls_parser.set_defaults(func=list_urls)
 
     return parser.parse_args()
 
