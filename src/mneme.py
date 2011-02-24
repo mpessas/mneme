@@ -38,13 +38,24 @@ def list_urls(args):
 
 
 def export_data(args):
-    index = store.DataStore(settings.DATA_DIR)
-    json.dump(
-        [entry for entry in index.get_entries()],
-        args.outfile,
-        indent=4
-    )
-    args.outfile.close()
+    try:
+        index = store.DataStore(settings.DATA_DIR)
+        json.dump(
+            [entry for entry in index.get_entries()],
+            args.outfile,
+            indent=4
+        )
+    finally:
+        args.outfile.close()
+
+def import_data(args):
+    try:
+        index = store.DataStore(settings.DATA_DIR)
+        for entry in json.load(args.infile):
+            doc = document.Document(entry[0])
+            index.add(entry[0], doc.get_text(), entry[1])
+    finally:
+        args.infile.close()
 
 
 def parse_args():
@@ -90,6 +101,12 @@ def parse_args():
     )
     export_parser.add_argument('outfile', type=argparse.FileType('w'))
     export_parser.set_defaults(func=export_data)
+
+    import_parser = subparsers.add_parser(
+        'import', help=u'Import data to index.'
+    )
+    import_parser.add_argument('infile', type=argparse.FileType('r'))
+    import_parser.set_defaults(func=import_data)
 
     return parser.parse_args()
 
