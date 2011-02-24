@@ -22,5 +22,14 @@ class DataStore(object):
     def search(self, text, category=None):
         res = self.index.search(text, category)
         return (self.index.get_url(r) for r in res)
+
+    def exists(self, url):
+        self.index.exists(url)
+
+    def get_categories(self):
+        return self.index.get_categories()
+
+    def get_urls(self):
+        return self.index.get_urls()
         
     
