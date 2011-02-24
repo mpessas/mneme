@@ -2,6 +2,7 @@
 
 import lxml.html
 
+
 class Document(object):
     """A document to be indexed."""
 
@@ -9,4 +10,5 @@ class Document(object):
         self.document = lxml.html.parse(url).getroot()
 
     def get_text(self):
+        """Return the text from an html document."""
         return self.document.text_content()

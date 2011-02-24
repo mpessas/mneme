@@ -5,6 +5,7 @@ import datetime
 from contextlib import contextmanager
 import xappy
 
+
 class IndexStore(object):
     """Class to access the index for the urls."""
 

@@ -38,6 +38,7 @@ def list_urls(args):
 
 
 def export_data(args):
+    """Export data to a file in JSON format."""
     try:
         index = store.DataStore(settings.DATA_DIR)
         json.dump(
@@ -48,7 +49,9 @@ def export_data(args):
     finally:
         args.outfile.close()
 
+
 def import_data(args):
+    """Import data from a file in JSON format."""
     try:
         index = store.DataStore(settings.DATA_DIR)
         for entry in json.load(args.infile):
