@@ -83,6 +83,25 @@ class TestIndex(unittest.TestCase):
         res = self.index.search('example')
         self.assertEqual(self.index.get_url(res[0]), "url2")
 
+    def test_exists(self):
+        self.index.add("url", "Lots of text and text",
+                       categories=['general', 'example'])
+        self.index._conn.flush()
+        self.assertTrue(self.index.exists('url'))
+        self.assertFalse(self.index.exists('url2'))
+
+    def test_get_urls(self):
+        self.index.add("url", "Lots of text and text",
+                       categories=['general', 'example'])
+        self.index.add("url2", "Example text",
+                       categories=['example'])
+        self.index._conn.flush()
+        res = self.index.get_urls()
+        self.assertEqual(
+            [u for u in self.index.get_urls()],
+            ['url', 'url2']
+        )        
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -74,6 +74,17 @@ class IndexStore(object):
         conn = xappy.SearchConnection(self._xapiandb_path)
         return conn.iter_terms_for_field('category')
 
+    def get_urls(self):
+        conn = xappy.SearchConnection(self._xapiandb_path)
+        return conn.iter_terms_for_field('url')
+
     def get_url(self, search_result):
         return search_result.data['url'][0]
+
+    def exists(self, url):
+        conn = xappy.SearchConnection(self._xapiandb_path)
+        q = conn.query_field('url', url)
+        res = conn.search(q, 0, 1)
+        assert len(res) == 1 or len(res) == 0
+        return len(res) == 1
         
