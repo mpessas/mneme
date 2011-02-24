@@ -6,6 +6,7 @@
    - [X] date: sortable
    - [X] category: exact
      
+** In case a url exists add extra categories
 * General
 ** Settings
 ** Logging
