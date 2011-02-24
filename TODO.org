@@ -17,7 +17,7 @@
   - [ ] Handle auth
 * UI
 ** CMD
-   - [ ] add document (+categories)
-   - [ ] search for term
-   - [ ] list categories
+   - [X] add document (+categories)
+   - [X] search for term
+   - [X] list categories
    - [ ] show last
