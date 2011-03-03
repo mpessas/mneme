@@ -13,7 +13,7 @@ setup(
     packages=['mnemelib', 'mnemelib.store', 'mnemelib.document', ],
     entry_points={
         'console_scripts': [
-            'mneme=mneme:main',
+            'mneme=mnemelib.mneme:main',
         ]
     }
 )
