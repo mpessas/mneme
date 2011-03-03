@@ -5,7 +5,7 @@ from setuptools import setup
 
 setup(
     name='mneme',
-    version='0.1',
+    version='0.2',
     author='Apostolos Bessas',
     author_email='mpessas@gmail.com',
     description=('Index the content of urls locally for easier searching.'),
