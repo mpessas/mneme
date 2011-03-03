@@ -10,10 +10,10 @@ setup(
     author_email='mpessas@gmail.com',
     description=('Index the content of urls locally for easier searching.'),
     license='GPL',
-    packages=['mnemelib', 'mnemelib.store', 'mnemelib.document', ],
+    packages=['mneme', 'mneme.store', 'mneme.document', ],
     entry_points={
         'console_scripts': [
-            'mneme=mnemelib.mneme:main',
+            'mneme=mneme.mneme:main',
         ]
     }
 )
