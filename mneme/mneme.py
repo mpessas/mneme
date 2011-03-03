@@ -4,9 +4,9 @@
 import sys
 import argparse
 import json
-import mnemelib.document
-import mnemelib.store
-import mnemelib.settings
+import document
+import store
+import settings
 
 
 def add_url(args):
