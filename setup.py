@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import os
-from setuptools import setup, find_packages
+from setuptools import setup
 
 setup(
     name='mneme',
@@ -10,8 +10,7 @@ setup(
     author_email='mpessas@gmail.com',
     description=('Index the content of urls locally for easier searching.'),
     license='GPL',
-    packages=['mnemelib', ],
-    py_modules=['mneme', ],
+    packages=['mnemelib', 'mnemelib.store', 'mnemelib.document', ],
     entry_points={
         'console_scripts': [
             'mneme=mneme:main',
