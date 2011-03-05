@@ -8,6 +8,7 @@ scripts = ['mneme']
 setup(
     name='mneme',
     version='0.2',
+    scripts=scripts,
     author='Apostolos Bessas',
     author_email='mpessas@gmail.com',
     description=('Index the content of urls locally for easier searching.'),
