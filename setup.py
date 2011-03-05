@@ -13,5 +13,4 @@ setup(
     description=('Index the content of urls locally for easier searching.'),
     license='GPL',
     packages=find_packages()
-    }
 )
